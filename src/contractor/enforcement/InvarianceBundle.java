@@ -16,7 +16,7 @@ import contractor.contracts.precondition.PreconditionContract;
  *
  */
 @SuppressWarnings("rawtypes")
-public class InvarianceBundle
+class InvarianceBundle
 {
     private final String methodName;
     private final List<List<PreconditionContract>> preconditions;

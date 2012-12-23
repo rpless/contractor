@@ -1,5 +1,5 @@
 
-import contractor.contracts.InvariantInterface;
+import contractor.contracts.Invariant;
 import contractor.contracts.NotNull;
 import contractor.contracts.PostNotNull;
 import contractor.contracts.postcondition.Postcondition;
@@ -10,14 +10,14 @@ import contractor.enforcement.InvariantEnforcer;
 public class ProxyTest
 {
     public static void main(String... args) {
-        MyMath m = InvariantEnforcer.enforceInvariance(new Maths());
+        Maths m = InvariantEnforcer.enforceInvariance(new Maths());
         System.out.println(m.add1(2));
         System.out.println(m.add1(-1));
         System.out.println(m.add1(null));
     }
 }
 
-@InvariantInterface
+@Invariant
 interface MyMath {
     
     @Postcondition(contract=PostNotNull.class)
