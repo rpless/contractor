@@ -1,18 +1,11 @@
 package contractor.contracts.precondition;
 
-import contractor.contracts.ContractEvaluation;
+import contractor.contracts.Contract;
 
-public abstract class PreconditionContract<T, V>
-{
-    private T current;
-    
-    public T getCurrent() {
-        return current;
-    }
-
-    public void setCurrent(T current) {
-        this.current = current;
-    }
-
-    public abstract ContractEvaluation evaluate(V value); 
-}
+/**
+ * A {@code PreconditionContract} defines methods for all {@code Contract}s that should be evaluated as part
+ * of the {@code Precondition} annotation.
+ * @author Ryan Plessner
+ *
+ */
+public abstract class PreconditionContract<T, V> extends Contract<T, V> {}

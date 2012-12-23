@@ -20,7 +20,7 @@ public class NotNull extends PreconditionContract<Object, Object>
             @Override
             public String getError()
             {
-                return "Expected a nonnull parameter for " + getCurrent() + ", but parameter was null.";
+                return "Expected a nonnull parameter.";
             }
         };
     }

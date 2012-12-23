@@ -53,25 +53,24 @@ class InvarianceInvocationHandler implements InvocationHandler
         return result;
     }
     
-    private void checkPostconditions(InvarianceBundle bundle, Object result) {
-	for(PostconditionContract postcondition : bundle.getPostconditions()) {
-	    ContractEvaluation eval = postcondition.evaluate(result);
-	    if(!eval.successful()) {
-		throw new RuntimeException(eval.getError());
-	    }
-	}
-    }
-    
     private void checkPreconditions(InvarianceBundle bundle, Object[] args) {
 	int argIndex = 0;
 	for(List<PreconditionContract> preconditions : bundle.getPreconditions()) {
 	    for(PreconditionContract precondition : preconditions) {
-		precondition.setCurrent(implementation);
-		ContractEvaluation eval = precondition.evaluate(args[argIndex]);
-		if(!eval.successful()) {
-		    throw new RuntimeException(eval.getError());
-		}
+		handleContractEvaluations(precondition.evaluate(args[argIndex]));
 	    }
+	}
+    }
+    
+    private void checkPostconditions(InvarianceBundle bundle, Object result) {
+	for(PostconditionContract postcondition : bundle.getPostconditions()) {
+	    handleContractEvaluations(postcondition.evaluate(result));
+	}
+    }
+    
+    private void handleContractEvaluations(ContractEvaluation evaluation) {
+	if(!evaluation.successful()) {
+	    throw new RuntimeException(evaluation.getError());
 	}
     }
     
@@ -88,10 +87,10 @@ class InvarianceInvocationHandler implements InvocationHandler
 
     /**
      * Handle the special case of when the method is defined in Object and has not been overridden.
-     * @param proxy
-     * @param method
-     * @param args
-     * @return
+     * @param proxy The Proxy object.
+     * @param method The method that is defined by object.
+     * @param args The arguments to the method.
+     * @return The result of the method call.
      */
     private Object handleTypeObject(Object proxy, Method method, Object[] args) {
         String name = method.getName();

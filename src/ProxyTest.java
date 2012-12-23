@@ -10,7 +10,7 @@ import contractor.enforcement.InvariantEnforcer;
 public class ProxyTest
 {
     public static void main(String... args) {
-        Maths m = InvariantEnforcer.enforceInvariance(new Maths());
+        MyMath m = InvariantEnforcer.enforceInvariance(new Maths());
         System.out.println(m.add1(2));
         System.out.println(m.add1(-1));
         System.out.println(m.add1(null));

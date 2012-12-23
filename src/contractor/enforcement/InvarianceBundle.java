@@ -64,17 +64,17 @@ class InvarianceBundle
 	return postconditions;
     }
     
-    public InvarianceBundle(String methodName, List<List<PreconditionContract>> preconditions, List<PostconditionContract> postconditions) {
+    private InvarianceBundle(String methodName, List<List<PreconditionContract>> preconditions, List<PostconditionContract> postconditions) {
 	this.methodName = methodName;
 	this.preconditions = preconditions;
 	this.postconditions = postconditions;
     }
 
-    public List<List<PreconditionContract>> getPreconditions() {
+    List<List<PreconditionContract>> getPreconditions() {
         return preconditions;
     }
 
-    public List<PostconditionContract> getPostconditions() {
+    List<PostconditionContract> getPostconditions() {
         return postconditions;
     }
 

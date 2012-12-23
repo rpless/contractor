@@ -1,17 +1,5 @@
 Roadmap:
-	- Store all contracts in a single class that
-		* this can accessed by in a map with the keys being the method name.
 	- Better Comments
 	- Unit Tests
 	
-	- support postconditions
 	- support Class-level invariants?
-	- amortized creation of contracts in the proxy
-	
-Project Structure
-- contractor
-	|- contracts
-			|------ Preconditions
-			|------ Postconditions
-	
-	|- enforcement

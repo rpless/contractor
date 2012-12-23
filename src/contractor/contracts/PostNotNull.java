@@ -2,6 +2,7 @@ package contractor.contracts;
 
 import contractor.contracts.postcondition.PostconditionContract;
 
+
 public class PostNotNull extends PostconditionContract<Object, Object>{
 
     @Override
