@@ -29,6 +29,6 @@ class Maths implements MyMath{
     @Override
     public Integer add1(Integer i)
     {
-        return null;
+        return i + 1;
     }
 }

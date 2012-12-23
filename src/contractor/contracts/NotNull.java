@@ -7,9 +7,9 @@ import contractor.contracts.precondition.PreconditionContract;
 public class NotNull extends PreconditionContract<Object, Object>
 {
     @Override
-    public ContractEvaluation<Object> evaluate(final Object value)
+    public ContractEvaluation evaluate(final Object value)
     {
-        return new ContractEvaluation<Object>() {
+        return new ContractEvaluation() {
 
             @Override
             public boolean successful()

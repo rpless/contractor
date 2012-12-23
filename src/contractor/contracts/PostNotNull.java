@@ -5,8 +5,8 @@ import contractor.contracts.postcondition.PostconditionContract;
 public class PostNotNull extends PostconditionContract<Object, Object>{
 
     @Override
-    public ContractEvaluation<Object> evaluate(final Object value) {
-	return new ContractEvaluation<Object>() {
+    public ContractEvaluation evaluate(final Object value) {
+	return new ContractEvaluation() {
 	    
 	    @Override
 	    public boolean successful() {

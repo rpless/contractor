@@ -14,5 +14,5 @@ public abstract class PreconditionContract<T, V>
         return current;
     }
     
-    public abstract ContractEvaluation<T> evaluate(V value); 
+    public abstract ContractEvaluation evaluate(V value); 
 }

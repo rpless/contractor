@@ -84,7 +84,7 @@ class InvarianceInvocationHandler implements InvocationHandler
                     @SuppressWarnings("unchecked")
                     PreconditionContract<Object,Object> c = (PreconditionContract<Object,Object>) instance;
                     c.setCurrent(implementation);
-                    ContractEvaluation<Object> eval = c.evaluate(args[argIndex]);
+                    ContractEvaluation eval = c.evaluate(args[argIndex]);
                     if(!eval.successful()) {
                         throw new RuntimeException(eval.getError());
                     }
