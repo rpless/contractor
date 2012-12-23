@@ -6,13 +6,13 @@ public abstract class PreconditionContract<T, V>
 {
     private T current;
     
-    public void setCurrent(T type) {
-        this.current = type;
-    }
-    
     public T getCurrent() {
         return current;
     }
-    
+
+    public void setCurrent(T current) {
+        this.current = current;
+    }
+
     public abstract ContractEvaluation evaluate(V value); 
 }

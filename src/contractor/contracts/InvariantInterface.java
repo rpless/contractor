@@ -7,6 +7,8 @@ import java.lang.annotation.Target;
 
 /**
  * This annotation is meant to be placed on interfaces for classes that will have invariants.
+ * <p>
+ * The {@code InvariantEnforcer} will only look at the methods from invariant interfaces for {@code Precondition}s and {@code Postcondition}s.
  * @author Ryan Plessner
  *
  */

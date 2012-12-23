@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 
 import contractor.contracts.ContractEvaluation;
 import contractor.contracts.postcondition.PostconditionContract;
@@ -43,9 +44,7 @@ class InvarianceInvocationHandler implements InvocationHandler
         if(!accessable) {
             method.setAccessible(true);
         }
-        // TODO: check Preconditions using InvarianceBundle
-        checkPrecondition(method, args);
-        
+        checkPreconditions(bundle, args);
         Object result = method.invoke(implementation, args);
         checkPostconditions(bundle, result);
         
@@ -64,15 +63,20 @@ class InvarianceInvocationHandler implements InvocationHandler
 	    }
 	}
     }
-    /*
-    private void checkPreconditions(Method method, Object[] args, InvarianceBundle bundle) {
+    
+    private void checkPreconditions(InvarianceBundle bundle, Object[] args) {
+	int argIndex = 0;
 	for(List<PreconditionContract> preconditions : bundle.getPreconditions()) {
 	    for(PreconditionContract precondition : preconditions) {
-		precondition.setCurrent(type)
+		precondition.setCurrent(implementation);
+		ContractEvaluation eval = precondition.evaluate(args[argIndex]);
+		if(!eval.successful()) {
+		    throw new RuntimeException(eval.getError());
+		}
 	    }
 	}
     }
-    */
+    /*
     private void checkPrecondition(Method method, Object[] args) {
         int argIndex = 0;
         for(Annotation[] annos : method.getParameterAnnotations()) {
@@ -100,7 +104,7 @@ class InvarianceInvocationHandler implements InvocationHandler
             }
             argIndex++;
         }
-    }
+    }*/
     
     private InvarianceBundle getInvarianceBundle(Method method) {
 	String key = method.getName();
@@ -127,7 +131,7 @@ class InvarianceInvocationHandler implements InvocationHandler
         } else if(HASHCODE.equals(name)) {
             return System.identityHashCode(proxy);
         } else if(TOSTRING.equals(name)) {
-            return proxy.getClass().getName() + "@" + Integer.toHexString(System.identityHashCode(proxy)) + ", with InvocationHandler " + this;
+            return proxy.getClass().getName() + "@" + Integer.toHexString(System.identityHashCode(proxy)) + ", with Invariance Handler " + this;
         } else {
             throw new IllegalStateException(String.valueOf(method));
         }

@@ -15,7 +15,7 @@ public class PostNotNull extends PostconditionContract<Object, Object>{
 	    
 	    @Override
 	    public String getError() {
-		return "Foo";
+		return "Expected result to be nonnull, but the result was null.";
 	    }
 	};
     }

@@ -12,8 +12,8 @@ public class ProxyTest
     public static void main(String... args) {
         MyMath m = InvariantEnforcer.enforceInvariance(new Maths());
         System.out.println(m.add1(2));
-        //System.out.println(m.add1(-1));
-        //System.out.println(m.add1(null));
+        System.out.println(m.add1(-1));
+        System.out.println(m.add1(null));
     }
 }
 
@@ -30,5 +30,9 @@ class Maths implements MyMath{
     public Integer add1(Integer i)
     {
         return i + 1;
+    }
+    
+    public String toString() {
+	return "Maths";
     }
 }
