@@ -2,10 +2,12 @@ package contractor.enforcement;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import contractor.contracts.ContractEvaluation;
+import contractor.contracts.postcondition.PostconditionContract;
 import contractor.contracts.precondition.Precondition;
 import contractor.contracts.precondition.PreconditionContract;
 
@@ -15,6 +17,7 @@ import contractor.contracts.precondition.PreconditionContract;
  * @author Ryan Plessner
  *
  */
+@SuppressWarnings({"rawtypes"})
 class InvarianceInvocationHandler implements InvocationHandler
 {
     private static final String EQUALS = "equals";
@@ -22,7 +25,7 @@ class InvarianceInvocationHandler implements InvocationHandler
     private static final String TOSTRING = "toString";
     
     private Object implementation;
-    private HashMap<String, Object> contracts;
+    private HashMap<String, InvarianceBundle> contracts;
     
     InvarianceInvocationHandler(Object implementation) {
         this.implementation = implementation;
@@ -30,23 +33,46 @@ class InvarianceInvocationHandler implements InvocationHandler
     }
 
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
-    {
-        checkPrecondition(method, args);
+    public Object invoke(Object proxy, Method method, Object[] args) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         if(Object.class == method.getDeclaringClass()) {
             return handleTypeObject(proxy, method, args);
         }
+        InvarianceBundle bundle = getInvarianceBundle(method);
         
-        if(!method.isAccessible()) {
+        boolean accessable = method.isAccessible();
+        if(!accessable) {
             method.setAccessible(true);
-            Object retval = method.invoke(implementation, args);
+        }
+        // TODO: check Preconditions using InvarianceBundle
+        checkPrecondition(method, args);
+        
+        Object result = method.invoke(implementation, args);
+        checkPostconditions(bundle, result);
+        
+        if(!accessable) {
             method.setAccessible(false);
-            return retval;
         }
         
-        return method.invoke(implementation, args);
+        return result;
     }
     
+    private void checkPostconditions(InvarianceBundle bundle, Object result) {
+	for(PostconditionContract postcondition : bundle.getPostconditions()) {
+	    ContractEvaluation eval = postcondition.evaluate(result);
+	    if(!eval.successful()) {
+		throw new RuntimeException(eval.getError());
+	    }
+	}
+    }
+    /*
+    private void checkPreconditions(Method method, Object[] args, InvarianceBundle bundle) {
+	for(List<PreconditionContract> preconditions : bundle.getPreconditions()) {
+	    for(PreconditionContract precondition : preconditions) {
+		precondition.setCurrent(type)
+	    }
+	}
+    }
+    */
     private void checkPrecondition(Method method, Object[] args) {
         int argIndex = 0;
         for(Annotation[] annos : method.getParameterAnnotations()) {
@@ -74,6 +100,17 @@ class InvarianceInvocationHandler implements InvocationHandler
             }
             argIndex++;
         }
+    }
+    
+    private InvarianceBundle getInvarianceBundle(Method method) {
+	String key = method.getName();
+	if (contracts.containsKey(key)) {
+	    return contracts.get(key);
+	} else {
+	    InvarianceBundle bundle = InvarianceBundle.createFromMethod(method);
+	    contracts.put(key, bundle);
+	    return bundle;
+	}
     }
 
     /**
