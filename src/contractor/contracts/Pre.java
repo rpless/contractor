@@ -7,10 +7,9 @@ import java.lang.annotation.Target;
 
 
 /**
- * This annotation can be placed on parameters in order to enforce contracts.
+ * This annotation can be placed on the parameters of methods in order to enforce contracts.
  * <p>
- * The Class that is provided as a contract will create a be instantiated to
- * enforce the precondition.
+ * The contract will be given the argument value when the method is called.
  * 
  * @author Ryan Plessner
  * 
@@ -18,9 +17,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 public @interface Pre {
+    
     /**
-     * @return Returns the {@code PreconditionContract} that should be
-     *         evaluated on the annotated method.
+     * @return Returns the {@code Contract} that should be evaluated on the annotated method.
      */
     public Class<? extends Contract<?>> value();
 }

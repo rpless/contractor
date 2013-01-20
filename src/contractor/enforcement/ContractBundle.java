@@ -11,9 +11,9 @@ import contractor.contracts.Pre;
 
 /**
  * An {@code ContractBundle} is a bundle of contracts for a given method.
- * 
+ * <p>
+ * It contains all of a method's preconditions and postconditions.
  * @author Ryan Plessner
- * TODO
  */
 @SuppressWarnings("rawtypes")
 class ContractBundle {
@@ -25,7 +25,8 @@ class ContractBundle {
         return new ContractBundle(method.getName(), getPreconditions(method),
                 getPostconditions(method));
     }
-
+    
+    // find a way to abstract these
     private static List<List<Contract>> getPreconditions(Method method) {
         List<List<Contract>> preconditions = new LinkedList<>();
         for (Annotation[] annotations : method.getParameterAnnotations()) {
@@ -69,20 +70,35 @@ class ContractBundle {
         return postconditions;
     }
 
+    /**
+     * Create a {@code ContractBundle}.
+     * @param methodName The name of the method that this {@code ContractBundle} is associated with.
+     * @param preconditions The List of contract lists. It is indexed by the argument order of the method.
+     * @param postconditions The list of postcondition contracts.
+     */
     private ContractBundle(String methodName, List<List<Contract>> preconditions, List<Contract> postconditions) {
         this.methodName = methodName;
         this.preconditions = preconditions;
         this.postconditions = postconditions;
     }
 
+    /**
+     * @return Returns this bundle's preconditions.
+     */
     List<List<Contract>> getPreconditions() {
         return preconditions;
     }
 
+    /**
+     * @return Returns this bundle's postconditions.
+     */
     List<Contract> getPostconditions() {
         return postconditions;
     }
 
+    /**
+     * @see Object#toString()
+     */
     public String toString() {
         return "Contracts for " + methodName;
     }

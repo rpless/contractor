@@ -1,10 +1,10 @@
 package contractor.contracts;
 
 /**
- * A {@code Contract} is agreement that method must adhere to.
+ * A {@code Contract} is an agreement that a method must adhere to.
  * <p>
  * If the method has a contract and it is being enforced, then a violation
- * will result in a runtime error.
+ * of the contract will result in a runtime error.
  * @author Ryan Plessner
  * 
  * @param <V> The value that is being passed in to evaluate.

@@ -9,7 +9,7 @@ import contractor.contracts.Contracted;
 /**
  * The {@code ContractEnforcer} is used to enforce an object's contracts.
  * <p>
- * It provides the enforceInvariance method, which can used to enforce an
+ * It provides the enforceContract method, which can used to enforce an
  * object's {@code Contracted} interfaces.
  * 
  * @author Ryan Plessner

@@ -1,3 +1,5 @@
 Roadmap:
 	- Better Comments
-	- Unit Tests
+	- Interface Level Invariants
+	- Black Box testing (maybe some whitebox on Contract bundles and such)
+	- what happens if we contract a void method.

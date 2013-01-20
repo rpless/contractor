@@ -1,8 +1,7 @@
 package contractor.contracts;
 
 /**
- * A {@code ContractEvaluation} is the result of a contract being applied to the
- * arguments or result of a method.
+ * A {@code ContractEvaluation} is the result of a contract being checked.
  * 
  * @author Ryan Plessner
  * 
