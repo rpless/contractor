@@ -7,7 +7,6 @@ import contractor.impl.NotNull;
 public class ProxyTest {
     public static void main(String... args) {
         MyMath m = ContractEnforcer.enforceContract(new Maths());
-        
 
         System.out.println(m.add1(2));
         System.out.println(m.add1(-1));
