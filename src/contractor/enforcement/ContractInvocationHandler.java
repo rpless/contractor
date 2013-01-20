@@ -21,11 +21,6 @@ import contractor.contracts.ContractEvaluation;
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
 class ContractInvocationHandler implements InvocationHandler {
-    
-    // Names of some methods that are defined by object and are special cases.
-    private static final String EQUALS = "equals";
-    private static final String HASHCODE = "hashCode";
-    private static final String TOSTRING = "toString";
 
     private Object implementation; // The Object that is having its contracts enforced.
     private HashMap<String, ContractBundle> contracts; // All contracts associated with the object's methods
@@ -47,9 +42,6 @@ class ContractInvocationHandler implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) 
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         
-        if (Object.class == method.getDeclaringClass()) {
-            return handleTypeObject(proxy, method, args);
-        }
         ContractBundle bundle = getContractBundle(method);
 
         boolean accessable = method.isAccessible();
@@ -116,29 +108,6 @@ class ContractInvocationHandler implements InvocationHandler {
             ContractBundle bundle = ContractBundle.createFromMethod(method);
             contracts.put(key, bundle);
             return bundle;
-        }
-    }
-
-    /**
-     * Handle the special case of when the method is defined in Object and has
-     * not been overridden.
-     * @param proxy The Proxy object.
-     * @param method The method that is defined by object.
-     * @param args The arguments to the method.
-     * @return The result of the method call.
-     */
-    private Object handleTypeObject(Object proxy, Method method, Object[] args) {
-        String name = method.getName();
-        if (EQUALS.equals(name)) {
-            return proxy == args[0];
-        } else if (HASHCODE.equals(name)) {
-            return System.identityHashCode(proxy);
-        } else if (TOSTRING.equals(name)) {
-            return proxy.getClass().getName() + "@"
-                    + Integer.toHexString(System.identityHashCode(proxy))
-                    + ", with Contract Handler " + this;
-        } else {
-            throw new IllegalStateException(String.valueOf(method));
         }
     }
 }

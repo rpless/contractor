@@ -1,5 +1,5 @@
 Roadmap:
-	- Odd interaction with Junit. Can't get the proxies to cast right in unit tests, but in regular applications it works fine.
+	- consider a better way to return success and errors. I don't like the contract evaluation.
 	- Interface Level Invariants
 	- Black Box testing (maybe some whitebox on Contract bundles and such)
 	- what happens if we contract a void method.
