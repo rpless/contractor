@@ -1,5 +1,3 @@
 Roadmap:
 	- Better Comments
 	- Unit Tests
-	
-	- support Class-level invariants?
