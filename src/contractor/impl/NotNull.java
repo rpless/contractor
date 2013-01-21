@@ -1,27 +1,22 @@
 package contractor.impl;
 
 import contractor.contracts.Contract;
-import contractor.contracts.ContractEvaluation;
 
 /**
- * 
+ * The {@code NotNull} contract specifies that the value put into its 
+ * evaluate method is not null.
  * @author Ryan Plessner
  *
  */
 public class NotNull extends Contract<Object> {
+
     @Override
-    public ContractEvaluation evaluate(final Object value) {
-        return new ContractEvaluation() {
+    public boolean evaluate(Object value) {
+        return value != null;
+    }
 
-            @Override
-            public boolean successful() {
-                return value != null;
-            }
-
-            @Override
-            public String getError() {
-                return "Expected a nonnull parameter.";
-            }
-        };
+    @Override
+    public String getError(Object _) {
+        return "Expected a nonnull parameter.";
     }
 }

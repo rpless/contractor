@@ -16,13 +16,13 @@ import contractor.contracts.Pre;
  * @author Ryan Plessner
  */
 @SuppressWarnings("rawtypes")
-class ContractBundle {
+class MethodContractBundle {
     private final String methodName;
     private final List<List<Contract>> preconditions;
     private final List<Contract> postconditions;
 
-    static ContractBundle createFromMethod(Method method) {
-        return new ContractBundle(method.getName(), getPreconditions(method),
+    static MethodContractBundle createFromMethod(Method method) {
+        return new MethodContractBundle(method.getName(), getPreconditions(method),
                 getPostconditions(method));
     }
     
@@ -76,7 +76,7 @@ class ContractBundle {
      * @param preconditions The List of contract lists. It is indexed by the argument order of the method.
      * @param postconditions The list of postcondition contracts.
      */
-    private ContractBundle(String methodName, List<List<Contract>> preconditions, List<Contract> postconditions) {
+    private MethodContractBundle(String methodName, List<List<Contract>> preconditions, List<Contract> postconditions) {
         this.methodName = methodName;
         this.preconditions = preconditions;
         this.postconditions = postconditions;

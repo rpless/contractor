@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import contractor.contracts.Contract;
-import contractor.contracts.ContractEvaluation;
 
 /**
  * The {@link ContractInvocationHandler} acts as a listener that can be
@@ -23,7 +22,7 @@ import contractor.contracts.ContractEvaluation;
 class ContractInvocationHandler implements InvocationHandler {
 
     private Object implementation; // The Object that is having its contracts enforced.
-    private HashMap<String, ContractBundle> contracts; // All contracts associated with the object's methods
+    private HashMap<String, MethodContractBundle> contracts; // All contracts associated with the object's methods
 
     /**
      * Create a {@code ContractInvocationHandler}.
@@ -42,7 +41,7 @@ class ContractInvocationHandler implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) 
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         
-        ContractBundle bundle = getContractBundle(method);
+        MethodContractBundle bundle = getContractBundle(method);
 
         boolean accessable = method.isAccessible();
         if (!accessable) {
@@ -65,7 +64,7 @@ class ContractInvocationHandler implements InvocationHandler {
      * @param bundle The {@code ContractBundle} that holds preconditions.
      * @param args The arguments to the method invocation.
      */
-    private void checkPreconditions(ContractBundle bundle, Object[] args) {
+    private void checkPreconditions(MethodContractBundle bundle, Object[] args) {
         int argIndex = 0;
         for (List<Contract> preconditions : bundle.getPreconditions()) {
             checkContracts(preconditions, args[argIndex]);
@@ -78,7 +77,7 @@ class ContractInvocationHandler implements InvocationHandler {
      * @param bundle The {@code ContractBundle} that holds the post condition {@code Contract}s.
      * @param result The result of the method invocation.
      */
-    private void checkPostconditions(ContractBundle bundle, Object result) {
+    private void checkPostconditions(MethodContractBundle bundle, Object result) {
         checkContracts(bundle.getPostconditions(), result);
     }
     
@@ -89,9 +88,8 @@ class ContractInvocationHandler implements InvocationHandler {
      */
     private void checkContracts(List<Contract> contracts, Object value) {
         for (Contract contract : contracts) {
-            ContractEvaluation evaluation = contract.evaluate(value);
-            if (!evaluation.successful()) {
-                throw new RuntimeException(evaluation.getError());
+            if (!contract.evaluate(value)) {
+                throw new RuntimeException(contract.getError(value));
             }
         }
     }
@@ -100,12 +98,12 @@ class ContractInvocationHandler implements InvocationHandler {
      * @param method The method whose {@code ContractBundle} is needed.
      * @return Get the {@code ContractBundle} associated with the given method.
      */
-    private ContractBundle getContractBundle(Method method) {
+    private MethodContractBundle getContractBundle(Method method) {
         String key = method.getName();
         if (contracts.containsKey(key)) {
             return contracts.get(key);
         } else {
-            ContractBundle bundle = ContractBundle.createFromMethod(method);
+            MethodContractBundle bundle = MethodContractBundle.createFromMethod(method);
             contracts.put(key, bundle);
             return bundle;
         }

@@ -12,8 +12,15 @@ package contractor.contracts;
 public abstract class Contract<V> {
     
     /**
-     * @param value The value to chek the contract again.
-     * @return Returns the evaluation of a contract.
+     * @param value The value to check the contract again.
+     * @return Returns true if the contract is satisfied.
      */
-    public abstract ContractEvaluation evaluate(V value);
+    public abstract boolean evaluate(V value);
+    
+    /**
+     * @param value A value that violates the contract. 
+     *              That is a call to evaluate on it returns false.
+     * @return Returns a string that describes the contract violation.
+     */
+    public abstract String getError(V value);
 }

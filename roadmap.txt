@@ -1,5 +1,4 @@
 Roadmap:
-	- consider a better way to return success and errors. I don't like the contract evaluation.
 	- Interface Level Invariants
 	- Black Box testing (maybe some whitebox on Contract bundles and such)
-	- what happens if we contract a void method.
+	- what happens if we contract a void method. -- Apparently it passes null into the evaluate method
