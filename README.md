@@ -1,4 +1,4 @@
 contractor
 ==========
 
-A rudimentary contract system for Java.
+A rudimentary contract system for interface implementations in Java.
