@@ -1,4 +1,6 @@
 Roadmap:
 	- Interface Level Invariants
-	- Black Box testing (maybe some whitebox on Contract bundles and such)
+	- Possibly a better way of creating Contracts, something that allows reuse would nice.
+	- Cleanup.
+	- Once Java 8 rolls out, use closures for some tasks.
 	- what happens if we contract a void method. -- Apparently it passes null into the evaluate method

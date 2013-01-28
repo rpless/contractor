@@ -31,6 +31,6 @@ public class NotNullTest {
     
     @Test(expected=RuntimeException.class)
     public void testPostcondition() {
-        math.returnNull();
+        math.getPi();
     }
 }

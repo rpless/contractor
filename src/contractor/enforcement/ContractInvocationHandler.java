@@ -38,8 +38,7 @@ class ContractInvocationHandler implements InvocationHandler {
      * invoke the method, and finally run the postconditions.
      */
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) 
-            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public Object invoke(Object proxy, Method method, Object[] args) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         
         MethodContractBundle bundle = getContractBundle(method);
 

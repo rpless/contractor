@@ -51,18 +51,16 @@ class MethodContractBundle {
 
     private static List<Contract> getPostconditions(Method method) {
         List<Contract> postconditions = new LinkedList<>();
-        for (Annotation anno : method.getAnnotations()) {
-            if (anno instanceof Post) {
+        for (Annotation annotation : method.getAnnotations()) {
+            if (annotation instanceof Post) {
                 try {
-                    postconditions.add(((Post) anno).value().newInstance());
-                } catch (InstantiationException e) {
-                    throw new RuntimeException(
-                            "Unable to instantiate a Precondition contract "
-                                    + anno.getClass().getName() + ".", e);
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException(
-                            "Unable to access a Precondition's constructor "
-                                    + anno.getClass().getName() + ".", e);
+                    Post postcondition = (Post) annotation;
+                    postconditions.add(postcondition.value().newInstance());
+                } catch(InstantiationException | IllegalAccessException e) {
+                    StringBuilder error = new StringBuilder();
+                    error.append("Unable to create Precondition for ").
+                          append(annotation.getClass().getName());
+                    throw new RuntimeException(error.toString(), e);
                 }
 
             }
